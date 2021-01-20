@@ -196,7 +196,7 @@ sketch
 
 # and uncomment the following lines
 # .pnp.*
-./.env.local
+./.env
 
 docker/
 
