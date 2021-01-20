@@ -196,11 +196,11 @@ sketch
 
 # and uncomment the following lines
 # .pnp.*
-./.env
+.env
 
 docker/
 
-./Dockerfile
-./docker-compose.yml
+Dockerfile
+docker-compose.yml
 
 # End of https://www.toptal.com/developers/gitignore/api/symfony,yarn,intellij,react
