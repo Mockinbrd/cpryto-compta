@@ -20,7 +20,16 @@ Encore
      * Each entry will result in one JavaScript file (e.g. app.js)
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
-    .addEntry('app', './assets/app.js')
+    .addEntry('appjs', './assets/app.js')
+    .addStyleEntry('appcss', './assets/styles/app.css')
+
+    .enablePostCssLoader((options) => {
+        options.config = {
+            // directory where the postcss.config.js file is stored
+            path: './postcss.config.js'
+        };
+    })
+
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')
