@@ -74,6 +74,10 @@ class Authenticator extends AbstractFormLoginAuthenticator implements PasswordAu
             throw new CustomUserMessageAuthenticationException('Email could not be found.');
         }
 
+        if (!$user->isVerified()){
+            throw new CustomUserMessageAuthenticationException('Please confirm your email to log in');
+        }
+
         return $user;
     }
 

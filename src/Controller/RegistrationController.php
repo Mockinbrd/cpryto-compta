@@ -6,10 +6,12 @@ use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Security\EmailVerifier;
 use App\Security\Authenticator;
+use App\Service\GetReferer;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -90,5 +92,33 @@ class RegistrationController extends AbstractController
         $this->addFlash('success', 'Your email address has been verified.');
 
         return $this->redirectToRoute('home');
+    }
+
+    /**
+     * @Route("/send/confirmation-email", name="app_confirmation_email")
+     */
+    public function sendConfirmationEmail(Request $request, GetReferer $getReferer): Response
+    {
+        $user = $this->getUser();
+        if ($user && !$user->isVerified()){
+            $url = $getReferer->referer($request) ?? $this->generateUrl('home');
+            try {
+                $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+                    (new TemplatedEmail())
+                        ->from(new Address('noreply@crypto-compta.com', 'Crypto Compta'))
+                        ->to($user->getEmail())
+                        ->subject('Please Confirm your Email')
+                        ->htmlTemplate('registration/confirmation_email.html.twig')
+                );
+            } catch (TransportExceptionInterface $exception) {
+                $this->addFlash('error', 'An error occured, email could not be sent');
+                return $this->redirect($url);
+            }
+            $this->addFlash('success', 'Confirmation email sent');
+            return $this->redirect($url);
+        } else {
+            $this->addFlash('error', 'You can not ask for a confirmation email as a non-registered user');
+            return $this->redirectToRoute('app_register');
+        }
     }
 }

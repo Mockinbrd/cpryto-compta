@@ -3,5 +3,29 @@
 @tailwind utilities;
 
 body {
-    background-color: lightgray;
+
 }
+
+.flash-error{
+    background-color: #EF4444;
+    color: white;
+}
+
+.flash-danger{
+    background-color: #EF4444;
+    color: white;
+}
+
+.flash-success{
+    background-color: #10B981;
+    color: white;
+}
+
+.flash-info{
+    background-color: #3B82F6;
+    color: white;
+}
+
+
+
+
