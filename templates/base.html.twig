@@ -16,7 +16,7 @@
     {% if app.user %}
         {% if not app.user.verified %}
             <div class="flex items-center justify-center" role="alert">
-                <p class="flex items-center bg-red-500 text-white text-sm font-light px-4 py-3">
+                <p class="flex items-center bg-red-500 text-white text-sm font-light px-4 py-3 rounded">
                     {{ source('@public_path'~asset('icons/error.svg')) }}
                     <span>
                         You're now logged in as a non-verified user. Please confirm your email now or you will not be able to log in again.
@@ -30,7 +30,7 @@
     {% for label, messages in app.flashes %}
         {% for message in messages %}
             <div class="flex items-center justify-center" role="alert">
-                <p class="flex items-center text-sm flash-{{ label }} font-light px-4 py-3">
+                <p class="flex items-center text-sm flash-{{ label }} font-light px-4 py-3 rounded">
                     {{ source('@public_path'~asset('icons/'~label~'.svg')) }}
                     <span>{{ message }}</span>
                 </p>
