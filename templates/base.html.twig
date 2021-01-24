@@ -19,7 +19,7 @@
                 <p class="flex items-center bg-red-500 text-white text-sm font-light px-4 py-3 rounded">
                     {{ source('@public_path'~asset('icons/error.svg')) }}
                     <span>
-                        You're now logged in as a non-verified user. Please confirm your email now or you will not be able to log in again.
+                        You're now logged in as a non-verified user. Please confirm your email to dismiss this message.
                         <a class="font-semibold underline" href="{{ path('app_confirmation_email') }}">Resend confirmation link.</a>
                     </span>
                 </p>
@@ -32,7 +32,7 @@
             <div class="flex items-center justify-center" role="alert">
                 <p class="flex items-center text-sm flash-{{ label }} font-light px-4 py-3 rounded">
                     {{ source('@public_path'~asset('icons/'~label~'.svg')) }}
-                    <span>{{ message }}</span>
+                    <span class="ml-2">{{ message }}</span>
                 </p>
             </div>
         {% endfor %}
