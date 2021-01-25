@@ -23,7 +23,7 @@ class PurchaseController extends AbstractController
         $user = $this->getUser();
         $this->denyAccessUnlessGranted('isVerifiedCheck',$user);
 
-        $coins = $coinGeckoClient->list();
+        $coins = array_slice($coinGeckoClient->list(),0,25);
 
         return $this->render('purchase/new.html.twig', [
             'coins' => $coins,
