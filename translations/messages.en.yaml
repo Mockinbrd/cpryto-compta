@@ -1,3 +1,5 @@
 home: 'Home'
 logout: 'Log out'
 locale.switch: "Passer en français"
+totalBalance: 'TOTAL BALANCE'
+balanceHistory: 'Balance History'

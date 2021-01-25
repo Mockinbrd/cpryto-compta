@@ -7,7 +7,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 class EntityListener
 {
-    private const CREATED_AT_FIELD = "create_at";
+    private const CREATED_AT_FIELD = "created_at";
     private const UPDATED_AT_FIELD = "updated_at";
 
     private SluggerInterface $slugger;

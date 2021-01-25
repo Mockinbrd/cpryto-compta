@@ -17,6 +17,11 @@
     </nav>
 
 <div class="w-1/2 mx-auto">
-    <h1>{{ 'home'|trans }}</h1>
+    <div class="text-center mt-24">
+        <span class="text-6xl font-semibold">TODO</span>
+        <p class="font-light mt-6">{{ 'totalBalance'|trans }}</p>
+    </div>
+    {% include('home/_components/_chronologic_history.html.twig') %}
+    {% include('home/_components/_list_cryptos.html.twig') %}
 </div>
 {% endblock %}
