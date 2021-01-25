@@ -1,0 +1,11 @@
+<nav class="flex justify-between items-center px-6 py-3 bg-blue-600 text-white w-1/2 mx-auto mb-12">
+    <a class="hover:underline" href="{{ path('home') }}">
+        <span>{{ 'home'|trans }}</span>
+    </a>
+    <a class="hover:underline" href="{{ path('app_logout') }}">
+        <span>{{ 'logout'|trans }}</span>
+    </a>
+    <a class="hover:underline" href="{{ path('change_locale') }}">
+        <span>{{ 'locale.switch'|trans }}</span>
+    </a>
+</nav>

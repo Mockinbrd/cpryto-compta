@@ -48,7 +48,7 @@ class User implements UserInterface
     /**
      * @ORM\OneToMany(targetEntity=Purchase::class, mappedBy="user")
      */
-    private ArrayCollection $purchases;
+    private Collection $purchases;
 
     public function __construct()
     {

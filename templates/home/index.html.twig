@@ -4,21 +4,11 @@
 
 {% block body %}
 
-    <nav class="flex justify-between items-center px-6 py-3 bg-blue-600 text-white w-1/2 mx-auto">
-        <a class="hover:underline" href="{{ path('home') }}">
-            <span>{{ 'home'|trans }}</span>
-        </a>
-        <a class="hover:underline" href="{{ path('app_logout') }}">
-            <span>{{ 'logout'|trans }}</span>
-        </a>
-        <a class="hover:underline" href="{{ path('change_locale') }}">
-            <span>{{ 'locale.switch'|trans }}</span>
-        </a>
-    </nav>
+    {% include('_components/_nav.html.twig') %}
 
 <div class="w-1/2 mx-auto">
-    <div class="flex justify-center items-center text-indigo-600 mt-6">
-        <a href="/" title="Add a crypto">
+    <div class="flex justify-center items-center text-indigo-600">
+        <a href="{{ path('purchase_new') }}" title="Add a crypto">
             <div class="flex bg-white rounded-lg py-3 px-6 shadow transition duration-500 ease-in-out transform hover:bg-indigo-50 hover:-translate-y-1 hover:scale-110">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24px" height="24px"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
                 <span class="ml-2">{{ 'addCrypto'|trans }}</span>
@@ -32,4 +22,5 @@
     {% include('home/_components/_chronologic_history.html.twig') %}
     {% include('home/_components/_list_cryptos.html.twig') %}
 </div>
+
 {% endblock %}
