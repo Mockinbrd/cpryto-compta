@@ -32,3 +32,14 @@ services:
 
     App\EventSubscriber\LocaleSubscriber:
         arguments: [ '%kernel.default_locale%' ]
+
+    App\Client\CoinGeckoClient:
+        arguments:
+            $url: '%env(COINGECKO_API_BASE_URL)%'
+
+    App\EventListener\EntityListener:
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: postPersist }
+            - { name: doctrine.event_listener, event: preUpdate }
+            - { name: doctrine.event_listener, event: postUpdate }
