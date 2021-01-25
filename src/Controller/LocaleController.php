@@ -16,11 +16,7 @@ class LocaleController extends AbstractController
     public function index(Request $request, GetReferer $getReferer): Response
     {
         $locale = $request->getLocale();
-        if ($locale === 'fr'){
-            $locale = 'en';
-        } else {
-            $locale = 'fr';
-        }
+        $locale === 'fr' ? $locale = 'en' : $locale = 'fr';
         $request->getSession()->set('_locale', $locale);
 
         return $this->redirect($getReferer->referer($request));
