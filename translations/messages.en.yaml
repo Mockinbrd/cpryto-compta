@@ -3,3 +3,5 @@ logout: 'Log out'
 locale.switch: "Passer en français"
 totalBalance: 'TOTAL BALANCE'
 balanceHistory: 'Balance History'
+addCrypto: 'Add a crypto'
+topGainer: 'Top Gainer'

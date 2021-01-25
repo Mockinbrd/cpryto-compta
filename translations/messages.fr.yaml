@@ -3,3 +3,5 @@ logout: 'Déconnexion'
 locale.switch: "Switch to english"
 totalBalance: 'SOLDE TOTAL'
 balanceHistory: 'Historique du Solde'
+addCrypto: 'Ajouter une crypto'
+topGainer: 'Les Plus Chauds'

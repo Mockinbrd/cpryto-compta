@@ -2,6 +2,7 @@
 
 namespace App\EventListener;
 
+use App\Entity\Crypto;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
@@ -29,9 +30,9 @@ class EntityListener
             $entity->setUpdatedAt(new \DateTime());
         }
 
-//        if ($entity instanceof Product) {
-//            $entity->setSlug($this->slugger->slug($entity->getTitle()));
-//        }
+        if ($entity instanceof Crypto) {
+            $entity->setSlug($this->slugger->slug($entity->getName()));
+        }
     }
 
     public function postPersist(LifecycleEventArgs $args): void
@@ -51,9 +52,9 @@ class EntityListener
             $entity->setUpdatedAt(new \DateTime());
         }
 
-//        if ($entity instanceof Product) {
-//            $entity->setSlug($this->slugger->slug($entity->getTitle()));
-//        }
+        if ($entity instanceof Crypto) {
+            $entity->setSlug($this->slugger->slug($entity->getName()));
+        }
     }
 
     public function postUpdate(LifecycleEventArgs $args): void
