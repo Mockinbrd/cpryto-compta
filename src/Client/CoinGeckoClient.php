@@ -23,10 +23,23 @@ class CoinGeckoClient {
         $this->serializer = $serializer;
     }
 
-    public function ping()
+    public function ping(): array
     {
         try {
             $response = $this->client->request(Request::METHOD_GET, 'ping');
+        } catch (TransportExceptionInterface $exception) {
+            throw new \RuntimeException('Error . ' . $exception->getMessage());
+        }
+        return $response->toArray(false);
+    }
+
+    /*
+     * List all available coins
+     */
+    public function list(): array
+    {
+        try {
+            $response = $this->client->request(Request::METHOD_GET, 'coins/list');
         } catch (TransportExceptionInterface $exception) {
             throw new \RuntimeException('Error . ' . $exception->getMessage());
         }
