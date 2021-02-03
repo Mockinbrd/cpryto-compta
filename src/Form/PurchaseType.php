@@ -17,20 +17,22 @@ class PurchaseType extends AbstractType
         $builder
             ->add('purchaseDateType', DateType::class, [
                 'mapped' => false,
+                'input' => 'datetime_immutable',
                 'widget' =>'single_text',
                 'attr' => [
-                    'class' => 'h-10 focus:outline-none focus:ring focus:border-blue-300 block w-1/2 rounded-md sm:text-sm border-gray-300'
+                    'class' => 'h-10 focus:outline-none focus:ring focus:border-blue-300 block w-full rounded-md sm:text-sm border-gray-300'
                 ]
             ])
-            ->add('purchaseTimeType', TimeType::class, [
-                'mapped' => false,
-                'widget' =>'single_text',
-                'attr' => [
-                    'class' => 'h-10 focus:outline-none focus:ring focus:border-blue-300 block w-1/2 rounded-md sm:text-sm border-gray-300'
-                ]
-            ])
+//            ->add('purchaseTimeType', TimeType::class, [
+//                'mapped' => false,
+//                'input' => 'array',
+//                'widget' =>'single_text',
+//                'attr' => [
+//                    'class' => 'h-10 focus:outline-none focus:ring focus:border-blue-300 block w-1/2 rounded-md sm:text-sm border-gray-300'
+//                ]
+//            ])
             ->add('amountCrypto')
-            ->add('cryptoId',TextType::class, [
+            ->add('coinId',TextType::class, [
                 'mapped' => false
             ])
         ;

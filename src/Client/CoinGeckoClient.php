@@ -46,6 +46,19 @@ class CoinGeckoClient {
         return $response->toArray(false);
     }
 
+    /*
+     * Give the history of a coin for a given date
+     */
+    public function history(string $id,\DateTimeImmutable $date): array
+    {
+        try {
+            $response = $this->client->request(Request::METHOD_GET, sprintf('coins/%s/history?date=%s&localization=false', $id, $date->format('d-m-Y')));
+        } catch (TransportExceptionInterface $exception) {
+            throw new \RuntimeException('Error . ' . $exception->getMessage());
+        }
+        return $response->toArray(false);
+    }
+
 
 
 }
