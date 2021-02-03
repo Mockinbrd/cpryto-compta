@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Entity\Traits\TimestampableTrait;
 use App\Repository\PurchaseRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=PurchaseRepository::class)
@@ -20,6 +21,7 @@ class Purchase
     private int $id;
 
     /**
+     * The coin name must match the coin id
      * @ORM\Column(type="string", length=255)
      */
     private ?string $coinName;
@@ -42,7 +44,7 @@ class Purchase
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="purchases")
      */
-    private User $user;
+    private UserInterface $user;
 
     /**
      * @ORM\ManyToOne(targetEntity=Bag::class, inversedBy="purchase")
@@ -91,12 +93,12 @@ class Purchase
         return $this;
     }
 
-    public function getUser(): User
+    public function getUser(): UserInterface
     {
         return $this->user;
     }
 
-    public function setUser(User $user): self
+    public function setUser(UserInterface $user): self
     {
         $this->user = $user;
 

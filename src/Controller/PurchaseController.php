@@ -6,6 +6,7 @@ use App\Client\CoinGeckoClient;
 use App\Entity\Purchase;
 use App\Entity\User;
 use App\Form\PurchaseType;
+use App\Service\PurchaseHandler;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,7 +22,7 @@ class PurchaseController extends AbstractController
     /**
      * @Route("/purchase/new", name="purchase_new")
      */
-    public function new(CoinGeckoClient $coinGeckoClient, Request $request): Response
+    public function new(CoinGeckoClient $coinGeckoClient, Request $request, PurchaseHandler $purchaseHandler): Response
     {
         $user = $this->getUser();
         $this->denyAccessUnlessGranted('isVerifiedCheck',$user);
@@ -29,15 +30,14 @@ class PurchaseController extends AbstractController
         $form = $this->createForm(PurchaseType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()){
-            $purchase = new Purchase();
-            $coinId = $form->get('coinId')->getData();
-            $amount = $form->get('amountCrypto')->getData();
-            $purchaseDate = $form->get('purchaseDateType')->getData();
-            dd($coinGeckoClient->history($coinId, $purchaseDate));
+            try {
+                $purchaseHandler->handle($request->request->get('purchase'), $user);
+            } catch (\Exception $e) {
+                $this->addFlash('error', $e->getMessage());
+                return $this->redirectToRoute('purchase_new');
+            }
         }
-
         $coins = $coinGeckoClient->list();
-
         return $this->render('purchase/new.html.twig', [
             'coins' => json_encode($coins),
             'form' => $form->createView()

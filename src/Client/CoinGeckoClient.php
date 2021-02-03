@@ -47,6 +47,19 @@ class CoinGeckoClient {
     }
 
     /*
+     * Get infos of one coin
+     */
+    public function info(string $id): array
+    {
+        try {
+            $response = $this->client->request(Request::METHOD_GET, sprintf('coins/%s?localization=false&tickers=false&market_data=false&community_data=false&developer_data=false&sparkline=false', $id));
+        } catch (TransportExceptionInterface $exception) {
+            throw new \RuntimeException('Error . ' . $exception->getMessage());
+        }
+        return $response->toArray(false);
+    }
+
+    /*
      * Give the history of a coin for a given date
      */
     public function history(string $id,\DateTimeImmutable $date): array

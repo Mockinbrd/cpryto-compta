@@ -17,6 +17,7 @@ class PurchaseType extends AbstractType
         $builder
             ->add('purchaseDateType', DateType::class, [
                 'mapped' => false,
+                'required' => true,
                 'input' => 'datetime_immutable',
                 'widget' =>'single_text',
                 'attr' => [
@@ -31,9 +32,10 @@ class PurchaseType extends AbstractType
 //                    'class' => 'h-10 focus:outline-none focus:ring focus:border-blue-300 block w-1/2 rounded-md sm:text-sm border-gray-300'
 //                ]
 //            ])
-            ->add('amountCrypto')
+            ->add('amountToCrypto')
             ->add('coinId',TextType::class, [
-                'mapped' => false
+                'mapped' => false,
+                'required' => true
             ])
         ;
     }
