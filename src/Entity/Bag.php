@@ -3,17 +3,15 @@
 namespace App\Entity;
 
 use App\Entity\Traits\TimestampableTrait;
-use App\Repository\CryptoRepository;
+use App\Repository\BagRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * @ORM\Entity(repositoryClass=CryptoRepository::class)
- * @UniqueEntity("slug")
+ * @ORM\Entity(repositoryClass=BagRepository::class)
  */
-class Crypto
+class Bag
 {
     use TimestampableTrait;
     /**
@@ -24,14 +22,10 @@ class Crypto
     private int $id;
 
     /**
+     * The name of the bag must match the coin id
      * @ORM\Column(type="string", length=50)
      */
     private string $name;
-
-    /**
-     * @ORM\Column(type="string", length=100)
-     */
-    private string $slug;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
@@ -39,9 +33,14 @@ class Crypto
     private ?string $icon;
 
     /**
-     * @ORM\OneToMany(targetEntity=Purchase::class, mappedBy="crypto")
+     * @ORM\OneToMany(targetEntity=Purchase::class, mappedBy="bag")
      */
-    private ArrayCollection $purchase;
+    private ?ArrayCollection $purchase;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="bags")
+     */
+    private ?User $user;
 
     public function __construct()
     {
@@ -65,18 +64,6 @@ class Crypto
         return $this;
     }
 
-    public function getSlug(): ?string
-    {
-        return $this->slug;
-    }
-
-    public function setSlug(string $slug): self
-    {
-        $this->slug = $slug;
-
-        return $this;
-    }
-
     public function getIcon(): ?string
     {
         return $this->icon;
@@ -92,7 +79,7 @@ class Crypto
     /**
      * @return Collection|Purchase[]
      */
-    public function getPurchase(): Collection
+    public function getPurchase(): ?Collection
     {
         return $this->purchase;
     }
@@ -101,7 +88,7 @@ class Crypto
     {
         if (!$this->purchase->contains($purchase)) {
             $this->purchase[] = $purchase;
-            $purchase->setCrypto($this);
+            $purchase->setBag($this);
         }
 
         return $this;
@@ -111,10 +98,22 @@ class Crypto
     {
         if ($this->purchase->removeElement($purchase)) {
             // set the owning side to null (unless already changed)
-            if ($purchase->getCrypto() === $this) {
-                $purchase->setCrypto(null);
+            if ($purchase->getBag() === $this) {
+                $purchase->setBag(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

@@ -20,6 +20,11 @@ class Purchase
     private int $id;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private ?string $coinName;
+
+    /**
      * @ORM\Column(type="date")
      */
     private \DateTimeImmutable $purchaseDate;
@@ -27,7 +32,7 @@ class Purchase
     /**
      * @ORM\Column(type="float")
      */
-    private float $amountCrypto;
+    private float $amountToCrypto;
 
     /**
      * @ORM\Column(type="float")
@@ -40,9 +45,10 @@ class Purchase
     private User $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Crypto::class, inversedBy="purchase")
+     * @ORM\ManyToOne(targetEntity=Bag::class, inversedBy="purchase")
      */
-    private Crypto $crypto;
+    private ?Bag $bag;
+
 
     public function getId(): ?int
     {
@@ -61,14 +67,14 @@ class Purchase
         return $this;
     }
 
-    public function getAmountCrypto(): ?float
+    public function getAmountToCrypto(): ?float
     {
-        return $this->amountCrypto;
+        return $this->amountToCrypto;
     }
 
-    public function setAmountCrypto(float $amountCrypto): self
+    public function setAmountToCrypto(float $amountToCrypto): self
     {
-        $this->amountCrypto = $amountCrypto;
+        $this->amountToCrypto = $amountToCrypto;
 
         return $this;
     }
@@ -85,26 +91,38 @@ class Purchase
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getUser(): User
     {
         return $this->user;
     }
 
-    public function setUser(?User $user): self
+    public function setUser(User $user): self
     {
         $this->user = $user;
 
         return $this;
     }
 
-    public function getCrypto(): ?Crypto
+    public function getBag(): ?Bag
     {
-        return $this->crypto;
+        return $this->bag;
     }
 
-    public function setCrypto(?Crypto $crypto): self
+    public function setBag(?Bag $bag): self
     {
-        $this->crypto = $crypto;
+        $this->bag = $bag;
+
+        return $this;
+    }
+
+    public function getCoinName(): ?string
+    {
+        return $this->coinName;
+    }
+
+    public function setCoinName(string $coinName): self
+    {
+        $this->coinName = $coinName;
 
         return $this;
     }

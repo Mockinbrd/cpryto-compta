@@ -50,9 +50,15 @@ class User implements UserInterface
      */
     private Collection $purchases;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Bag::class, mappedBy="user")
+     */
+    private $bags;
+
     public function __construct()
     {
         $this->purchases = new ArrayCollection();
+        $this->bags = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -169,6 +175,36 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($purchase->getUser() === $this) {
                 $purchase->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Bag[]
+     */
+    public function getBags(): Collection
+    {
+        return $this->bags;
+    }
+
+    public function addBag(Bag $bag): self
+    {
+        if (!$this->bags->contains($bag)) {
+            $this->bags[] = $bag;
+            $bag->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBag(Bag $bag): self
+    {
+        if ($this->bags->removeElement($bag)) {
+            // set the owning side to null (unless already changed)
+            if ($bag->getUser() === $this) {
+                $bag->setUser(null);
             }
         }
 

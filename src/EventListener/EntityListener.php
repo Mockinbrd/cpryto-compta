@@ -2,7 +2,7 @@
 
 namespace App\EventListener;
 
-use App\Entity\Crypto;
+use App\Entity\Bag;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
@@ -30,7 +30,7 @@ class EntityListener
             $entity->setUpdatedAt(new \DateTime());
         }
 
-        if ($entity instanceof Crypto) {
+        if ($entity instanceof Bag) {
             $entity->setSlug($this->slugger->slug($entity->getName()));
         }
     }
@@ -52,7 +52,7 @@ class EntityListener
             $entity->setUpdatedAt(new \DateTime());
         }
 
-        if ($entity instanceof Crypto) {
+        if ($entity instanceof Bag) {
             $entity->setSlug($this->slugger->slug($entity->getName()));
         }
     }
