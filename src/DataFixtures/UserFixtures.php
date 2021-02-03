@@ -22,6 +22,7 @@ class UserFixtures extends Fixture
         $user->setEmail('admin@crypto-compta.com');
         $user->setPassword($this->passwordEncoder->encodePassword($user, '123456!?'));
         $user->setRoles(['ROLE_ADMIN']);
+        $user->setIsVerified(true);
         $manager->persist($user);
         $manager->flush();
     }
