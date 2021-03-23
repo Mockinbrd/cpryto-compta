@@ -77,10 +77,10 @@ class PurchaseHandler {
     public function handle(array $data, UserInterface $user): void
     {
         $purchase = $this->createPurchase($data, $user);
-
         /* @var Purchase $purchase*/
         $amountToEUR = $this->findEquivalentToEUR($purchase->getCoinName(),$purchase->getAmountToCrypto(), $purchase->getPurchaseDate());
         $purchase->setAmountToEUR($amountToEUR);
+
         /* Create the bag if not exists or add the purchase to it*/
         $bag = $this->createBag($purchase);
 

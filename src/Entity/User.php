@@ -46,19 +46,13 @@ class User implements UserInterface
     private bool $isVerified = false;
 
     /**
-     * @ORM\OneToMany(targetEntity=Purchase::class, mappedBy="user")
+     * @ORM\OneToMany(targetEntity=Portfolio::class, mappedBy="user", orphanRemoval=true)
      */
-    private Collection $purchases;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Bag::class, mappedBy="user")
-     */
-    private $bags;
+    private $portfolios;
 
     public function __construct()
     {
-        $this->purchases = new ArrayCollection();
-        $this->bags = new ArrayCollection();
+        $this->portfolios = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -152,59 +146,29 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection|Purchase[]
+     * @return Collection|Portfolio[]
      */
-    public function getPurchases(): Collection
+    public function getPortfolios(): Collection
     {
-        return $this->purchases;
+        return $this->portfolios;
     }
 
-    public function addCrypto(Purchase $purchase): self
+    public function addPortfolio(Portfolio $portfolio): self
     {
-        if (!$this->purchases->contains($purchase)) {
-            $this->purchases[] = $purchase;
-            $purchase->setUser($this);
+        if (!$this->portfolios->contains($portfolio)) {
+            $this->portfolios[] = $portfolio;
+            $portfolio->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeCrypto(Purchase $purchase): self
+    public function removePortfolio(Portfolio $portfolio): self
     {
-        if ($this->purchases->removeElement($purchase)) {
+        if ($this->portfolios->removeElement($portfolio)) {
             // set the owning side to null (unless already changed)
-            if ($purchase->getUser() === $this) {
-                $purchase->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Bag[]
-     */
-    public function getBags(): Collection
-    {
-        return $this->bags;
-    }
-
-    public function addBag(Bag $bag): self
-    {
-        if (!$this->bags->contains($bag)) {
-            $this->bags[] = $bag;
-            $bag->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeBag(Bag $bag): self
-    {
-        if ($this->bags->removeElement($bag)) {
-            // set the owning side to null (unless already changed)
-            if ($bag->getUser() === $this) {
-                $bag->setUser(null);
+            if ($portfolio->getUser() === $this) {
+                $portfolio->setUser(null);
             }
         }
 
