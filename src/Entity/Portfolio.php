@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\Traits\TimestampableTrait;
 use App\Repository\PortfolioRepository;
+use Carbon\Carbon;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -18,6 +19,8 @@ use Symfony\Bridge\Doctrine\IdGenerator\UlidGenerator;
  * @ApiResource(
  *     collectionOperations={"get", "post"},
  *     itemOperations={"get", "put", "delete"},
+ *     normalizationContext={"groups"={"portfolio:read"}},
+ *     denormalizationContext={"groups"={"portfolio:write"}}
  * )
  */
 class Portfolio
@@ -28,13 +31,13 @@ class Portfolio
      * @ORM\Column(type="ulid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UlidGenerator::class)
-     * @Groups("portfolio:read")
+     * @Groups({"portfolio:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=100)
-     * @Groups("portfolio:read")
+     * @Groups({"portfolio:read", "portfolio:write"})
      * @Assert\NotBlank()
      */
     private string $name = '';
@@ -47,13 +50,12 @@ class Portfolio
 
     /**
      * @ORM\OneToMany(targetEntity=Transactions::class, mappedBy="portfolio", cascade={"persist", "remove"})
-     * @Groups("portfolio:read")
+     * @Groups({"portfolio:read"})
      */
     private iterable $transactions;
 
     public function __construct()
     {
-        $this->created_at = new \DateTimeImmutable();
         $this->transactions = new ArrayCollection();
     }
 
@@ -114,5 +116,14 @@ class Portfolio
         }
 
         return $this;
+    }
+
+    /**
+     * Returns the time passed since the date
+     * @Groups({"portfolio:read"})
+     */
+    public function getCreatedAtAgo(): string
+    {
+        return Carbon::instance($this->getCreatedAt())->diffForHumans();
     }
 }

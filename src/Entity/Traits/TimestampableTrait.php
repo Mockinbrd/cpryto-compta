@@ -21,12 +21,12 @@ trait TimestampableTrait
         return $this->created_at;
     }
 
-//    public function setCreatedAt(\DateTimeImmutable $createdAt): self
-//    {
-//        $this->created_at = $createdAt;
-//
-//        return $this;
-//    }
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    {
+        $this->created_at = $createdAt;
+
+        return $this;
+    }
 
     public function getUpdatedAt(): ?\DateTimeInterface
     {
