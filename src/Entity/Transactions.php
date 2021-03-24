@@ -2,12 +2,16 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\Traits\TimestampableTrait;
 use App\Repository\TransactionsRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=TransactionsRepository::class)
+ * @ApiResource()
  */
 class Transactions
 {
@@ -16,39 +20,50 @@ class Transactions
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("portfolio:read")
      */
     private ?int $id;
 
     /**
      * The coin name must match the coin id
      * @ORM\Column(type="string", length=100)
+     * @Groups("portfolio:read")
+     * @Assert\NotBlank()
      */
-    private ?string $coinId;
+    private string $coinId = '';
 
     /**
      * @ORM\Column(type="string", length=3)
+     * @Groups("portfolio:read")
+     * @Assert\NotBlank()
      */
-    private ?string $currency;
+    private string $currency = '';
 
     /**
      * @ORM\Column(type="float")
+     * @Groups("portfolio:read")
+     * @Assert\NotBlank()
      */
-    private ?float $amount;
+    private float $amount = 0.0;
 
     /**
      * @ORM\Column(type="float")
+     * @Groups("portfolio:read")
+     * @Assert\NotBlank()
      */
-    private ?float $tokenQuantityReceived;
+    private float $tokenQuantityReceived = 0.0;
 
     /**
      * @ORM\Column(type="datetime_immutable")
+     * @Groups("portfolio:read")
+     * @Assert\NotNull()
      */
-    private ?\DateTimeImmutable $transactionDate;
+    private ?\DateTimeImmutable $transactionDate = null;
 
     /**
      * @ORM\ManyToOne(targetEntity=Portfolio::class, inversedBy="transactions")
      */
-    private ?Portfolio $portfolio;
+    private ?Portfolio $portfolio = null;
 
     public function getId(): ?int
     {

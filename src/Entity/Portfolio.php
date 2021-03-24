@@ -2,29 +2,42 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\Traits\TimestampableTrait;
 use App\Repository\PortfolioRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Uid\Ulid;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\IdGenerator\UlidGenerator;
 
 /**
  * @ORM\Entity(repositoryClass=PortfolioRepository::class)
+ * @ApiResource(
+ *     collectionOperations={"get", "post"},
+ *     itemOperations={"get", "put", "delete"},
+ * )
  */
 class Portfolio
 {
     use TimestampableTrait;
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="ulid", unique=true)
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class=UlidGenerator::class)
+     * @Groups("portfolio:read")
      */
-    private ?int $id;
+    private $id;
 
     /**
      * @ORM\Column(type="string", length=100)
+     * @Groups("portfolio:read")
+     * @Assert\NotBlank()
      */
-    private ?string $name;
+    private string $name = '';
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="portfolios")
@@ -33,16 +46,18 @@ class Portfolio
     private $user;
 
     /**
-     * @ORM\OneToMany(targetEntity=Transactions::class, mappedBy="portfolio")
+     * @ORM\OneToMany(targetEntity=Transactions::class, mappedBy="portfolio", cascade={"persist", "remove"})
+     * @Groups("portfolio:read")
      */
-    private ?ArrayCollection $transactions;
+    private iterable $transactions;
 
     public function __construct()
     {
+        $this->created_at = new \DateTimeImmutable();
         $this->transactions = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId(): ?Ulid
     {
         return $this->id;
     }

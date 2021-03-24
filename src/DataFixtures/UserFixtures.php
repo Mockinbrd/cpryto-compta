@@ -2,6 +2,8 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Portfolio;
+use App\Entity\Transactions;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -24,6 +26,21 @@ class UserFixtures extends Fixture
         $user->setRoles(['ROLE_ADMIN']);
         $user->setIsVerified(true);
         $manager->persist($user);
+
+        $portfolio = new Portfolio();
+        $portfolio->setName('Main Portfolio');
+        $portfolio->setUser($user);
+        $manager->persist($portfolio);
+
+        $transaction = new Transactions();
+        $transaction->setCoinId('bitcoin');
+        $transaction->setCurrency('EUR');
+        $transaction->setAmount(100);
+        $transaction->setTokenQuantityReceived(0.005);
+        $transaction->setTransactionDate(new \DateTimeImmutable());
+        $transaction->setPortfolio($portfolio);
+        $manager->persist($transaction);
+
         $manager->flush();
     }
 }
