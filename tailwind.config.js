@@ -1,7 +1,11 @@
 const colors = require('tailwindcss/colors')
 
 module.exports = {
-  purge: [],
+  purge: [
+    './public/**/*.html',
+    './templates/**/*.html.twig',
+  ],
+  mode: 'jit',
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {},

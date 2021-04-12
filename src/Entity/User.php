@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\Traits\TimestampableTrait;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -10,11 +11,17 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\IdGenerator\UlidGenerator;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Ulid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
+ * @ApiResource(
+ *     normalizationContext={"groups"={"user:read"}},
+ *     denormalizationContext={"groups"={"user:write"}},
+ * )
  */
 class User implements UserInterface
 {
@@ -29,6 +36,9 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\NotBlank()
+     * @Assert\Email()
+     * @Groups({"user:read", "user:write", "portfolio:item:get", "portfolio:write"})
      */
     private string $email;
 
@@ -40,6 +50,8 @@ class User implements UserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Assert\NotBlank()
+     * @Groups({"user:write"})
      */
     private string $password;
 
@@ -50,12 +62,19 @@ class User implements UserInterface
 
     /**
      * @ORM\OneToMany(targetEntity=Portfolio::class, mappedBy="user", orphanRemoval=true)
+     * @Groups({"user:read", "user:write"})
      */
     private $portfolios;
 
     public function __construct()
     {
         $this->portfolios = new ArrayCollection();
+    }
+
+    public function setId(Ulid $id): self
+    {
+        $this->id = $id;
+        return $this;
     }
 
     public function getId(): ?Ulid

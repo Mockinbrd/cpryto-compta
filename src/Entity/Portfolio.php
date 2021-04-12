@@ -20,11 +20,21 @@ use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
  * @ORM\Entity(repositoryClass=PortfolioRepository::class)
  * @ApiResource(
  *     collectionOperations={"get", "post"},
- *     itemOperations={"get", "put", "delete"},
+ *     itemOperations={
+ *          "get"={
+ *                  "normalization_context"={
+ *                      "groups"={
+ *                          "portfolio:read", "portfolio:item:get"
+ *                      }
+ *                  },
+ *          },
+ *          "put",
+ *          "delete"
+ *          },
  *     attributes={
  *           "pagination_items_per_page"=10
  *     },
- *     normalizationContext={"groups"={"portfolio:read"}},
+ *     normalizationContext={"groups"={"portfolio:read", "portfolio:item:get"}},
  *     denormalizationContext={"groups"={"portfolio:write"}}
  * )
  */
@@ -36,13 +46,13 @@ class Portfolio
      * @ORM\Column(type="ulid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UlidGenerator::class)
-     * @Groups({"portfolio:read"})
+     * @Groups({"portfolio:read", "user:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=100)
-     * @Groups({"portfolio:read", "portfolio:write"})
+     * @Groups({"portfolio:read", "portfolio:write", "user:read"})
      * @Assert\NotBlank()
      */
     private string $name = '';
@@ -50,12 +60,14 @@ class Portfolio
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="portfolios")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"portfolio:read", "portfolio:write"})
+     * @Assert\Valid()
      */
     private $user;
 
     /**
      * @ORM\OneToMany(targetEntity=Transactions::class, mappedBy="portfolio", cascade={"persist", "remove"})
-     * @Groups({"portfolio:read"})
+     * @Groups({"portfolio:read", "user:read"})
      */
     private iterable $transactions;
 
