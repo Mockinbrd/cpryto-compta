@@ -15,6 +15,7 @@ use Symfony\Component\Uid\Ulid;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\IdGenerator\UlidGenerator;
 use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 /**
  * @ORM\Entity(repositoryClass=PortfolioRepository::class)
@@ -32,11 +33,18 @@ use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
  *          "delete"
  *          },
  *     attributes={
- *           "pagination_items_per_page"=10
+ *           "pagination_items_per_page"=10,
+*            "formats"={"jsonld", "json", "html", "csv"={"text/csv"}}
  *     },
  *     normalizationContext={"groups"={"portfolio:read", "portfolio:item:get"}},
  *     denormalizationContext={"groups"={"portfolio:write"}}
  * )
+ * @ApiFilter(SearchFilter::class, properties={
+ *     "name": "partial",
+ *     "user": "exact",
+ *     "user.email": "partial"
+ * })
+ * @ApiFilter(PropertyFilter::class)
  */
 class Portfolio
 {
@@ -52,7 +60,7 @@ class Portfolio
 
     /**
      * @ORM\Column(type="string", length=100)
-     * @Groups({"portfolio:read", "portfolio:write", "user:read"})
+     * @Groups({"portfolio:read", "portfolio:write", "user:read", "user:write"})
      * @Assert\NotBlank()
      */
     private string $name = '';

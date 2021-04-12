@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\Traits\TimestampableTrait;
 use App\Repository\UserRepository;
@@ -14,6 +15,7 @@ use Symfony\Bridge\Doctrine\IdGenerator\UlidGenerator;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Ulid;
 use Symfony\Component\Validator\Constraints as Assert;
+use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -22,6 +24,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     normalizationContext={"groups"={"user:read"}},
  *     denormalizationContext={"groups"={"user:write"}},
  * )
+ * @ApiFilter(PropertyFilter::class)
  */
 class User implements UserInterface
 {
@@ -61,8 +64,9 @@ class User implements UserInterface
     private bool $isVerified = false;
 
     /**
-     * @ORM\OneToMany(targetEntity=Portfolio::class, mappedBy="user", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Portfolio::class, mappedBy="user", orphanRemoval=true, cascade={"persist"}, orphanRemoval=true)
      * @Groups({"user:read", "user:write"})
+     * @Assert\Valid()
      */
     private $portfolios;
 
