@@ -20,7 +20,10 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 /**
  * @ORM\Entity(repositoryClass=PortfolioRepository::class)
  * @ApiResource(
- *     collectionOperations={"get", "post"},
+ *     collectionOperations={
+ *          "get",
+ *          "post" = { "security" = "is_granted('ROLE_USER')" }
+ *      },
  *     itemOperations={
  *          "get"={
  *                  "normalization_context"={
@@ -29,8 +32,11 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
  *                      }
  *                  },
  *          },
- *          "put",
- *          "delete"
+ *          "put" = {
+ *              "security" = "is_granted('ROLE_USER') and object.user == user",
+ *              "security_message" = "Only the creator can edit this portfolio"
+ *          },
+ *          "delete" = { "security" = "is_granted('ROLE_ADMIN')" }
  *          },
  *     attributes={
  *           "pagination_items_per_page"=10,

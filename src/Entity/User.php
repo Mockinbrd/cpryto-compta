@@ -13,6 +13,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\IdGenerator\UlidGenerator;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Uid\Ulid;
 use Symfony\Component\Validator\Constraints as Assert;
 use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
@@ -21,6 +22,19 @@ use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  * @ApiResource(
+ *     accessControl="is_granted('ROLE_USER')",
+ *     collectionOperations={
+ *          "get",
+ *          "post"={
+ *              "security"="is_granted('IS_AUTHENTICATED_ANONYMOUSLY')",
+ *              "validation_groups"={"Default", "create"}
+ *          },
+ *     },
+ *     itemOperations={
+ *          "get",
+ *          "put"={"security"="is_granted('ROLE_USER') and object == user"},
+ *          "delete"={"security"="is_granted('ROLE_ADMIN')"}
+ *     },
  *     normalizationContext={"groups"={"user:read"}},
  *     denormalizationContext={"groups"={"user:write"}},
  * )
@@ -41,30 +55,38 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=180, unique=true)
      * @Assert\NotBlank()
      * @Assert\Email()
-     * @Groups({"user:read", "user:write", "portfolio:item:get", "portfolio:write"})
+     * @Groups({"user:read", "user:write", "portfolio:item:get"})
      */
     private string $email;
 
     /**
      * @ORM\Column(type="json")
+     * @Groups({"admin:read", "admin:write"})
      */
     private array $roles = [];
+
+    /**
+     * @Groups("user:write")
+     * @SerializedName("password")
+     * @Assert\NotBlank(groups={"create"})
+     */
+    private ?string $plainPassword;
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
      * @Assert\NotBlank()
-     * @Groups({"user:write"})
      */
     private string $password;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups({"admin:read", "admin:write"})
      */
     private bool $isVerified = false;
 
     /**
-     * @ORM\OneToMany(targetEntity=Portfolio::class, mappedBy="user", orphanRemoval=true, cascade={"persist"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Portfolio::class, mappedBy="user", orphanRemoval=true, cascade={"persist"})
      * @Groups({"user:read", "user:write"})
      * @Assert\Valid()
      */
@@ -156,7 +178,7 @@ class User implements UserInterface
     public function eraseCredentials()
     {
         // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
+        $this->plainPassword = null;
     }
 
     public function isVerified(): bool
@@ -197,6 +219,18 @@ class User implements UserInterface
                 $portfolio->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword(string $plainPassword): self
+    {
+        $this->plainPassword = $plainPassword;
 
         return $this;
     }
