@@ -45,7 +45,7 @@ class UserResourceTest extends CustomApiTestCase
         $em = $this->getEntityManager();
         /** @var User $user */
         $user = $em->getRepository(User::class)->find($user->getId());
-        $this->assertEquals(['ROLE_USER'], $user->getRoles());
+        $this->assertJsonEquals($user->getRoles(), 'ROLE_USER');
     }
 
     public function testGetUser()

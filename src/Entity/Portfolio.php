@@ -33,11 +33,11 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
  *                  },
  *          },
  *          "put" = {
- *              "security" = "is_granted('ROLE_USER') and object.user == user",
+ *              "security" = "is_granted('EDIT', previous_object)",
  *              "security_message" = "Only the creator can edit this portfolio"
  *          },
- *          "delete" = { "security" = "is_granted('ROLE_ADMIN')" }
- *          },
+ *          "delete" = {"security" = "is_granted('ROLE_ADMIN')"}
+*      },
  *     attributes={
  *           "pagination_items_per_page"=10,
 *            "formats"={"jsonld", "json", "html", "csv"={"text/csv"}}
@@ -77,7 +77,7 @@ class Portfolio
      * @Groups({"portfolio:read", "portfolio:write"})
      * @Assert\Valid()
      */
-    private $user;
+    private ?User $user;
 
     /**
      * @ORM\OneToMany(targetEntity=Transactions::class, mappedBy="portfolio", cascade={"persist", "remove"})
