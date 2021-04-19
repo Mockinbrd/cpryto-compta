@@ -5,7 +5,7 @@
 {% block body %}
 <div class="h-screen flex">
     <div class="m-auto">
-        <form method="post">
+        <form method="post" action="{{ path('app_login') }}">
             {% if error %}
                 <div class="flex items-center justify-center" role="alert">
                     <p class="flex items-center bg-red-500 text-white text-sm font-light px-4 py-3 rounded">

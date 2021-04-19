@@ -2,8 +2,9 @@
 
 namespace App\EventListener;
 
-use App\Entity\Bag;
+use App\Entity\Portfolio;
 use Doctrine\ORM\Event\LifecycleEventArgs;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 class EntityListener
@@ -12,6 +13,7 @@ class EntityListener
     private const UPDATED_AT_FIELD = "updated_at";
 
     private SluggerInterface $slugger;
+    private Security $security;
 
     public function __construct(SluggerInterface $slugger)
     {
@@ -30,8 +32,11 @@ class EntityListener
             $entity->setUpdatedAt(new \DateTime());
         }
 
-        if ($entity instanceof Bag) {
+        if ($entity instanceof Portfolio) {
+            /* @var $entity Portfolio */
             $entity->setSlug($this->slugger->slug($entity->getName()));
+            if ($entity->getUser()) return;
+            elseif ($this->security->getUser()) $entity->setUser($this->security->getUser());
         }
     }
 
@@ -52,7 +57,7 @@ class EntityListener
             $entity->setUpdatedAt(new \DateTime());
         }
 
-        if ($entity instanceof Bag) {
+        if ($entity instanceof Portfolio) {
             $entity->setSlug($this->slugger->slug($entity->getName()));
         }
     }

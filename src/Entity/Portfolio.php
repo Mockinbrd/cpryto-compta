@@ -6,10 +6,12 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\Traits\TimestampableTrait;
 use App\Repository\PortfolioRepository;
+use App\Validator\IsValidOwner;
 use Carbon\Carbon;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Ulid;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -72,16 +74,20 @@ class Portfolio
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="portfolios")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"portfolio:read", "portfolio:write"})
-     * @Assert\Valid()
+     * @Groups({"portfolio:read", "portfolio:collection:post"})
+     * @IsValidOwner()
      */
-    private ?User $user;
-
+    private $user;
     /**
      * @ORM\OneToMany(targetEntity=Transactions::class, mappedBy="portfolio", cascade={"persist", "remove"})
      * @Groups({"portfolio:read"})
      */
     private iterable $transactions;
+
+    /**
+     * @ORM\Column(type="string", length=100)
+     */
+    private ?string $slug;
 
     public function __construct()
     {
@@ -110,7 +116,7 @@ class Portfolio
         return $this->user;
     }
 
-    public function setUser(?User $user): self
+    public function setUser(?UserInterface $user): self
     {
         $this->user = $user;
 
@@ -154,5 +160,17 @@ class Portfolio
     public function getCreatedAtAgo(): string
     {
         return Carbon::instance($this->getCreatedAt())->diffForHumans();
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
     }
 }
