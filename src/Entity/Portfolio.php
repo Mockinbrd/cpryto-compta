@@ -41,9 +41,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
  *     attributes={
  *           "pagination_items_per_page"=10,
 *            "formats"={"jsonld", "json", "html", "csv"={"text/csv"}}
- *     },
- *     normalizationContext={"groups"={"portfolio:read", "portfolio:item:get"}},
- *     denormalizationContext={"groups"={"portfolio:write"}}
+ *     }
  * )
  * @ApiFilter(SearchFilter::class, properties={
  *     "name": "partial",
@@ -81,7 +79,7 @@ class Portfolio
 
     /**
      * @ORM\OneToMany(targetEntity=Transactions::class, mappedBy="portfolio", cascade={"persist", "remove"})
-     * @Groups({"portfolio:read", "user:read"})
+     * @Groups({"portfolio:read"})
      */
     private iterable $transactions;
 

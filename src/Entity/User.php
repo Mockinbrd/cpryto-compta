@@ -34,9 +34,7 @@ use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
  *          "get",
  *          "put"={"security"="is_granted('ROLE_USER') and object == user"},
  *          "delete"={"security"="is_granted('ROLE_ADMIN')"}
- *     },
- *     normalizationContext={"groups"={"user:read"}},
- *     denormalizationContext={"groups"={"user:write"}},
+ *     }
  * )
  * @ApiFilter(PropertyFilter::class)
  */
