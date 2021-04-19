@@ -92,6 +92,18 @@ class User implements UserInterface
      */
     private $portfolios;
 
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     * @Groups({"admin:read", "user:write"})
+     */
+    private ?string $firstname;
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     * @Groups({"admin:read", "user:write"})
+     */
+    private ?string $lastname;
+
     public function __construct()
     {
         $this->portfolios = new ArrayCollection();
@@ -231,6 +243,30 @@ class User implements UserInterface
     public function setPlainPassword(string $plainPassword): self
     {
         $this->plainPassword = $plainPassword;
+
+        return $this;
+    }
+
+    public function getFirstname(): ?string
+    {
+        return $this->firstname;
+    }
+
+    public function setFirstname(?string $firstname): self
+    {
+        $this->firstname = $firstname;
+
+        return $this;
+    }
+
+    public function getLastname(): ?string
+    {
+        return $this->lastname;
+    }
+
+    public function setLastname(?string $lastname): self
+    {
+        $this->lastname = $lastname;
 
         return $this;
     }
