@@ -31,8 +31,6 @@ security:
             provider: app_user_provider
             stateless: true
             anonymous: true
-            login_throttling:
-                max_attempts: 5
             json_login:
                 check_path: /api/auth
                 success_handler: lexik_jwt_authentication.handler.authentication_success

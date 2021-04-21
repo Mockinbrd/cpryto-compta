@@ -2,10 +2,16 @@
 
 namespace App\Controller;
 
+use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
+use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Serializer\Encoder\DecoderInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class SecurityController extends AbstractController
 {
@@ -38,7 +44,33 @@ class SecurityController extends AbstractController
 
         return $this->json([
             'user' => $this->getUser()->getId() ??  null
-        ]);
+        ], 200);
+    }
+
+    /**
+     * @Route("/api/get_token_payloads", name="get_token_payloads", methods={"GET"})
+     */
+    public function getTokenPayloads(Request $request, JWTEncoderInterface $jwt, DecoderInterface $decoder): Response
+    {
+        if ($request->query->get('authorization_token') !== null){
+            $token = $request->query->get('authorization_token');
+            try {
+                return $this->json([
+                    'user' => $jwt->decode($token)
+                ]);
+            } catch (JWTDecodeFailureException $e) {
+                throw new Exception([
+                    'error' => [
+                        'code' => 400,
+                        'message' => $e->getMessage()
+                    ]
+                ]);
+            }
+        }
+
+        return $this->json([
+            'error' => 'No token provided, please provide a JWT token in a "authorization_token" key.'
+        ], 400);
     }
 
     /**
