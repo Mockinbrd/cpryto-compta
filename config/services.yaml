@@ -54,3 +54,8 @@ services:
         # our service is never cached (which, of course, can have performance implications!
         decoration_priority: -20
         arguments: [ '@App\ApiPlatform\AutoGroupResourceMetadataFactory.inner' ]
+
+    App\Swagger\SwaggerDecorator:
+        decorates: 'api_platform.swagger.normalizer.documentation'
+        arguments: [ '@App\Swagger\SwaggerDecorator.inner' ]
+        autoconfigure: false
