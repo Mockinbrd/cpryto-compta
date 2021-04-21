@@ -20,9 +20,9 @@ class UserController extends AbstractController
     public function me(SerializerInterface $serializer): Response
     {
         return $this->json([
-            $serializer->serialize($this->getUser(), 'json', [
-                'groups' => ['me:read']
-            ])
+            'email' => $this->getUser()->getEmail(),
+            'firstname' => $this->getUser()->getFirstname(),
+            'lastname' => $this->getUser()->getLastname(),
         ]);
 
     }

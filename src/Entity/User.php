@@ -54,7 +54,7 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=180, unique=true)
      * @Assert\NotBlank()
      * @Assert\Email()
-     * @Groups({"user:read", "user:write", "portfolio:item:get", "me:read"})
+     * @Groups({"user:read", "user:write", "portfolio:item:get"})
      */
     private string $email;
 
@@ -93,13 +93,13 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
-     * @Groups({"admin:read","owner:read", "user:write", "me:read"})
+     * @Groups({"admin:read","owner:read", "user:write"})
      */
     private ?string $firstname;
 
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
-     * @Groups({"admin:read","owner:read", "user:write", "me:read"})
+     * @Groups({"admin:read","owner:read", "user:write"})
      */
     private ?string $lastname;
 
