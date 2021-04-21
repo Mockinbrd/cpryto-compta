@@ -9,7 +9,7 @@ use Symfony\Component\Validator\ConstraintValidator;
 
 class IsValidOwnerValidator extends ConstraintValidator
 {
-    private $security;
+    private Security $security;
 
     public function __construct(Security $security)
     {

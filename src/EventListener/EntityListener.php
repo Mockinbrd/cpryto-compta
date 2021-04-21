@@ -15,9 +15,10 @@ class EntityListener
     private SluggerInterface $slugger;
     private Security $security;
 
-    public function __construct(SluggerInterface $slugger)
+    public function __construct(SluggerInterface $slugger, Security $security)
     {
         $this->slugger = $slugger;
+        $this->security = $security;
     }
 
     public function prePersist(LifecycleEventArgs $args): void

@@ -204,3 +204,7 @@ Dockerfile
 docker-compose.yml
 
 # End of https://www.toptal.com/developers/gitignore/api/symfony,yarn,intellij,react
+
+###> lexik/jwt-authentication-bundle ###
+/config/jwt/*.pem
+###< lexik/jwt-authentication-bundle ###

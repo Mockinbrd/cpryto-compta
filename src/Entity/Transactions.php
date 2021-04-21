@@ -11,7 +11,31 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=TransactionsRepository::class)
- * @ApiResource()
+ * @ApiResource(
+ *      security="is_granted('ROLE_USER')",
+ *      collectionOperations={
+ *          "get",
+ *          "post" = { "security" = "is_granted('ROLE_USER')" }
+ *      },
+ *     itemOperations={
+ *          "get"={
+ *                  "normalization_context"={
+ *                      "groups"={
+ *                          "transaction:read", "transaction:item:get"
+ *                      }
+ *                  },
+ *          },
+ *          "put" = {
+ *              "security" = "is_granted('EDIT_TRANSACTION', previous_object)",
+ *              "security_message" = "Only the creator can edit this transaction"
+ *          },
+ *          "delete" = {"security" = "is_granted('ROLE_ADMIN')"}
+ *      },
+ *     attributes={
+ *           "pagination_items_per_page"=25,
+ *           "formats"={"json", "html"}
+ *     }
+ * )
  */
 class Transactions
 {
@@ -27,43 +51,44 @@ class Transactions
     /**
      * The coin name must match the coin id
      * @ORM\Column(type="string", length=100)
-     * @Groups("portfolio:read")
+     * @Groups({"transaction:read", "transaction:write"})
      * @Assert\NotBlank()
      */
     private string $coinId = '';
 
     /**
      * @ORM\Column(type="string", length=3)
-     * @Groups("portfolio:read")
+     * @Groups({"transaction:read", "transaction:write"})
      * @Assert\NotBlank()
      */
     private string $currency = '';
 
     /**
      * @ORM\Column(type="float")
-     * @Groups("portfolio:read")
+     * @Groups({"transaction:read", "transaction:write"})
      * @Assert\NotBlank()
      */
     private float $amount = 0.0;
 
     /**
      * @ORM\Column(type="float")
-     * @Groups("portfolio:read")
+     * @Groups({"transaction:read", "transaction:write"})
      * @Assert\NotBlank()
      */
     private float $tokenQuantityReceived = 0.0;
 
     /**
      * @ORM\Column(type="datetime_immutable")
-     * @Groups("portfolio:read")
-     * @Assert\NotNull()
+     * @Groups({"transaction:read", "transaction:write"})
+     * @Assert\NotBlank()
      */
     private ?\DateTimeImmutable $transactionDate = null;
 
     /**
      * @ORM\ManyToOne(targetEntity=Portfolio::class, inversedBy="transactions")
+     * @Groups({"transaction:read"})
      */
-    private ?Portfolio $portfolio = null;
+    private ?Portfolio $portfolio;
 
     public function getId(): ?int
     {
@@ -123,7 +148,7 @@ class Transactions
         return $this->portfolio;
     }
 
-    public function setPortfolio(?Portfolio $portfolio): self
+    public function setPortfolio(Portfolio $portfolio): self
     {
         $this->portfolio = $portfolio;
 

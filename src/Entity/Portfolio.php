@@ -42,7 +42,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 *      },
  *     attributes={
  *           "pagination_items_per_page"=10,
-*            "formats"={"jsonld", "json", "html", "csv"={"text/csv"}}
+*            "formats"={"json", "html"}
  *     }
  * )
  * @ApiFilter(SearchFilter::class, properties={
@@ -60,13 +60,13 @@ class Portfolio
      * @ORM\Column(type="ulid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UlidGenerator::class)
-     * @Groups({"portfolio:read", "user:read"})
+     * @Groups({"portfolio:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=100)
-     * @Groups({"portfolio:read", "portfolio:write", "user:read", "user:write"})
+     * @Groups({"portfolio:read", "portfolio:write", "user:write", "transaction:item:get"})
      * @Assert\NotBlank()
      */
     private string $name = '';
@@ -78,14 +78,16 @@ class Portfolio
      * @IsValidOwner()
      */
     private $user;
+
     /**
-     * @ORM\OneToMany(targetEntity=Transactions::class, mappedBy="portfolio", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity=Transactions::class, mappedBy="portfolio", cascade={"persist", "remove"}, orphanRemoval=true)
      * @Groups({"portfolio:read"})
      */
     private iterable $transactions;
 
     /**
      * @ORM\Column(type="string", length=100)
+     * @Groups({"admin:read", "admin:write"})
      */
     private ?string $slug;
 

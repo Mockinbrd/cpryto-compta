@@ -44,7 +44,6 @@ class PortfolioVoter extends Voter
                 if ($this->security->isGranted('ROLE_ADMIN')) {
                     return true;
                 }
-
                 return false;
         }
 

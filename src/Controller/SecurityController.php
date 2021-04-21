@@ -10,9 +10,25 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class SecurityController extends AbstractController
 {
     /**
-     * @Route("/login", name="app_login", methods={"POST"})
+     * @Route("/login", name="app_login", methods={"GET","POST"})
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
+    {
+         if ($this->getUser()) {
+             return $this->redirectToRoute('home');
+         }
+        // get the login error if there is one
+        $error = $authenticationUtils->getLastAuthenticationError();
+        // last username entered by the user
+        $lastUsername = $authenticationUtils->getLastUsername();
+
+        return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+    }
+
+    /**
+     * @Route("/api/auth", name="authenticate", methods={"POST"})
+     */
+    public function authenticate(AuthenticationUtils $authenticationUtils): Response
     {
         if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->json([
@@ -21,18 +37,8 @@ class SecurityController extends AbstractController
         }
 
         return $this->json([
-            'user' => $this->getUser() ? $this->getUser()->getId() : null
+            'user' => $this->getUser()->getId() ??  null
         ]);
-//         if ($this->getUser()) {
-//             return $this->redirectToRoute('home');
-//         }
-//
-//        // get the login error if there is one
-//        $error = $authenticationUtils->getLastAuthenticationError();
-//        // last username entered by the user
-//        $lastUsername = $authenticationUtils->getLastUsername();
-//
-//        return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }
 
     /**

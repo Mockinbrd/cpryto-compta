@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Security;
+namespace App\Security\Guard;
 
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
@@ -20,7 +20,7 @@ use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticato
 use Symfony\Component\Security\Guard\PasswordAuthenticatedInterface;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
-class Authenticator extends AbstractFormLoginAuthenticator implements PasswordAuthenticatedInterface
+class MainAuthenticator extends AbstractFormLoginAuthenticator implements PasswordAuthenticatedInterface
 {
     use TargetPathTrait;
 
@@ -39,13 +39,13 @@ class Authenticator extends AbstractFormLoginAuthenticator implements PasswordAu
         $this->passwordEncoder = $passwordEncoder;
     }
 
-    public function supports(Request $request)
+    public function supports(Request $request): bool
     {
         return self::LOGIN_ROUTE === $request->attributes->get('_route')
             && $request->isMethod('POST');
     }
 
-    public function getCredentials(Request $request)
+    public function getCredentials(Request $request): array
     {
         $credentials = [
             'email' => $request->request->get('email'),
@@ -81,7 +81,7 @@ class Authenticator extends AbstractFormLoginAuthenticator implements PasswordAu
         return $user;
     }
 
-    public function checkCredentials($credentials, UserInterface $user)
+    public function checkCredentials($credentials, UserInterface $user): bool
     {
         return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
     }
@@ -94,7 +94,7 @@ class Authenticator extends AbstractFormLoginAuthenticator implements PasswordAu
         return $credentials['password'];
     }
 
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $providerKey)
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $providerKey): RedirectResponse
     {
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
@@ -103,7 +103,7 @@ class Authenticator extends AbstractFormLoginAuthenticator implements PasswordAu
         return new RedirectResponse($this->urlGenerator->generate('home'));
     }
 
-    protected function getLoginUrl()
+    protected function getLoginUrl(): string
     {
         return $this->urlGenerator->generate(self::LOGIN_ROUTE);
     }

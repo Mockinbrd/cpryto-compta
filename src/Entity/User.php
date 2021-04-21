@@ -84,7 +84,7 @@ class User implements UserInterface
     private bool $isVerified = false;
 
     /**
-     * @ORM\OneToMany(targetEntity=Portfolio::class, mappedBy="user", orphanRemoval=true, cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=Portfolio::class, mappedBy="user", orphanRemoval=true, cascade={"persist", "remove"})
      * @Groups({"user:read", "user:write"})
      * @Assert\Valid()
      */

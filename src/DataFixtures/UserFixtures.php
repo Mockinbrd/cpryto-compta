@@ -25,7 +25,27 @@ class UserFixtures extends Fixture
         $user->setPassword($this->passwordEncoder->encodePassword($user, '123456!?'));
         $user->setRoles(['ROLE_ADMIN']);
         $user->setIsVerified(true);
+        $user->setFirstname('Elon');
+        $user->setLastname('Musk');
         $manager->persist($user);
+
+        $user2 = new User();
+        $user2->setEmail('user@crypto-compta.com');
+        $user2->setPassword($this->passwordEncoder->encodePassword($user2, '123456'));
+        $user2->setRoles(['ROLE_USER', 'ROLE_API_USER']);
+        $user2->setIsVerified(true);
+        $user2->setFirstname('James');
+        $user2->setLastname('Franco');
+        $manager->persist($user2);
+
+        $user3 = new User();
+        $user3->setEmail('non-verified@crypto-compta.com');
+        $user3->setPassword($this->passwordEncoder->encodePassword($user3, '123456'));
+        $user3->setRoles(['ROLE_USER']);
+        $user3->setIsVerified(false);
+        $user3->setFirstname('Wako');
+        $user3->setLastname('Nakamoto');
+        $manager->persist($user3);
 
         $portfolio = new Portfolio();
         $portfolio->setName('Main Portfolio');
