@@ -17,6 +17,7 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Uid\Ulid;
 use Symfony\Component\Validator\Constraints as Assert;
 use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
+use App\Controller\Action\GetCurrentUserAction;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -53,7 +54,7 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=180, unique=true)
      * @Assert\NotBlank()
      * @Assert\Email()
-     * @Groups({"user:read", "user:write", "portfolio:item:get"})
+     * @Groups({"user:read", "user:write", "portfolio:item:get", "me:read"})
      */
     private string $email;
 
@@ -92,13 +93,13 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
-     * @Groups({"admin:read","owner:read", "user:write"})
+     * @Groups({"admin:read","owner:read", "user:write", "me:read"})
      */
     private ?string $firstname;
 
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
-     * @Groups({"admin:read","owner:read", "user:write"})
+     * @Groups({"admin:read","owner:read", "user:write", "me:read"})
      */
     private ?string $lastname;
 
