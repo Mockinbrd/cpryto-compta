@@ -61,6 +61,15 @@ class UserFixtures extends Fixture
         $transaction->setPortfolio($portfolio);
         $manager->persist($transaction);
 
+        $transaction2 = new Transactions();
+        $transaction2->setCoinId('ethereum');
+        $transaction2->setCurrency('EUR');
+        $transaction2->setAmount(200);
+        $transaction2->setTokenQuantityReceived(0.2);
+        $transaction2->setTransactionDate(new \DateTimeImmutable());
+        $transaction2->setPortfolio($portfolio);
+        $manager->persist($transaction2);
+
         $manager->flush();
     }
 }

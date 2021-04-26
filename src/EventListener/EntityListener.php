@@ -35,7 +35,7 @@ class EntityListener
 
         if ($entity instanceof Portfolio) {
             /* @var $entity Portfolio */
-            $entity->setSlug($this->slugger->slug($entity->getName()));
+            $entity->setSlug(strtolower($this->slugger->slug($entity->getName())));
             if ($entity->getUser()) return;
             elseif ($this->security->getUser()) $entity->setUser($this->security->getUser());
         }

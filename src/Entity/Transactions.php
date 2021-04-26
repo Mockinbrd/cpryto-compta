@@ -2,12 +2,15 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\Traits\TimestampableTrait;
 use App\Repository\TransactionsRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
 
 /**
  * @ORM\Entity(repositoryClass=TransactionsRepository::class)
@@ -36,6 +39,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  *           "formats"={"json", "html"}
  *     }
  * )
+ * @ApiFilter(SearchFilter::class, properties={
+ *     "coinId": "partial",
+ *     "portfolio.id": "exact"
+ * })
+ * @ApiFilter(PropertyFilter::class)
  */
 class Transactions
 {
