@@ -269,4 +269,18 @@ class User implements UserInterface
 
         return $this;
     }
+
+    /**
+     * Get all transactions of an user
+     */
+    public function getAllTransactions()
+    {
+        $arr = [];
+        foreach ($this->getPortfolios() as $portfolio){
+            foreach ($portfolio->getTransactions() as $transaction){
+                array_push($arr, $transaction);
+            }
+        }
+        return $arr;
+    }
 }
