@@ -50,6 +50,7 @@ C'est là que notre application entre en jeu, le but : regrouper ses investissem
     - Data Persisters
     - Custom group context (ex: `admin:read`)
     - AutoGroup pour les contextes de normalization/denormalization
+    - Code et messages d'erreurs adaptés
 
   - API CoinGecko v3:
 
@@ -74,6 +75,15 @@ C'est là que notre application entre en jeu, le but : regrouper ses investissem
     - Les jeux de données seront aussi complétés avec ceux de l'API de CoinGecko
 
 - **FRONT** :
+
+  - UX :
+    
+    - Composants responsive centrés au milieu du viewport
+    - Affichage d'un loader pour indiquer à l'utilisateur un traitement en cours
+    - Affichage des erreurs
+    - Sidebar en slide depuis la gauche avec ajout dynamique de sous-menu si l'utilisateur est connecté
+    - Affichage des composants en fadeIn pour une expérience de navigation plus agréable
+    - Dark mode
 
   - Authentification (`/register` & `/login`) :
 
@@ -126,16 +136,12 @@ C'est là que notre application entre en jeu, le but : regrouper ses investissem
 
     - Styles des composants avec les librairie styled-components et twin.macro pour une personnalisation plus poussées et des performances accrues.
 
-  - Burger menu :
-
-    - Sidebar avec burger icon
-    - Ajout dynamique d'un sous-menu si utilisateur connecté
-
   - Animations :
 
     - Implentation d'animations avec la librairie react-animations couplée avec styled-components.
 
   - Dark Mode :
+    
     - Possibilité de switch de thème `["light","dark"]` depuis tout le site.
 
 ## 🧬 Parcours utilisateur
