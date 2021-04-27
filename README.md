@@ -123,9 +123,9 @@ C'est là que notre application entre en jeu, le but : regrouper ses investissem
       2. L'url de l'``icon`` de la crypto-monnaie est récupérée s'il est disponible
       3. La transaction est insérée en base dans le portfolio adéquate
 
-  - Page portfolios (`/portfolios`) :
+  - Page portfolio (`/portfolio`) :
 
-    - Screenshot de la page : [Image](https://drive.google.com/file/d/1otuyqyesaZG-AAErZCEWUNiGIL6Uj-XX/view?usp=sharing)
+    - Screenshot de la page : [Image](https://drive.google.com/file/d/1rE2nQzaUXoHSy1sfSbcbBoPbsDIBbMy9/view?usp=sharing)
     - C'est ici que l'utilisateur aura des statistiques d'un portfolio précis.
 
   - Page profil utilisateur (`/profile`) :
