@@ -51,6 +51,12 @@ C'est là que notre application entre en jeu, le but : regrouper ses investissem
     - Custom group context (ex: `admin:read`)
     - AutoGroup pour les contextes de normalization/denormalization
 
+  - API CoinGecko v3:
+
+    - Base URL : `api.coingecko.com/api/v3`
+    - Très complète et performante
+    - Utilisée pour récupérer toutes sortes d'informations liées aux crypto-monnaies (ex: `monnaies, valeurs, dates, icons..`)
+
   - Security :
 
     - Firewall _JWTGuard_ pour `/api/*` et _SymfonyHttpOnlyGuard_ pour `/web/*`
@@ -69,63 +75,48 @@ C'est là que notre application entre en jeu, le but : regrouper ses investissem
 
 - **FRONT** :
 
-  - **Authentification** (`/register` & `/login`) :
+  - Authentification (`/register` & `/login`) :
 
     - Authentification JWT avec ApiPlatform
     - JWT refresh token pour éviter de devoir retaper ses logs
 
-  - **Gestion d'utiisateurs** :
+  - Gestion d'utiisateurs :
 
     - Session utilisateur stockée en sessionStorage (donc re-auth à chaque fermeture du client web)
     - User infos requêtable avec `GET /me` dans l'API
 
-  - **Security** :
+  - Security :
 
     - Restrictions de certaines routes aux anonymes
     - Nettoyage des valeurs des states
     - User passé en sessionStorage au lieu du localStorage
 
-  - **Composant MyAssets** (`/myassets`) :
+  - Composant MyAssets (`/myassets`) :
 
-    - Screenshot de la page : [Page](https://github.com/Mockinbrd/front-uf-web-b3/tree/master/doc/myassets.png)
+    - Screenshot de la page : [Image](https://github.com/Mockinbrd/front-uf-web-b3/tree/master/doc/myassets.png)
+    - C'est ici que l'utilisateur aura des statistiques de tous ses portfolios réunis.
 
-  - **Page portfolios** (`/portfolios`) :
+  - Page portfolios (`/portfolios`) :
 
-    - Screenshot de la page : [Page](https://github.com/Mockinbrd/front-uf-web-b3/tree/master/doc/portfolios.png)
+    - Screenshot de la page : [Image](https://github.com/Mockinbrd/front-uf-web-b3/tree/master/doc/portfolios.png)
+    - C'est ici que l'utilisateur aura des statistiques d'un portfolio précis.
 
-  - **Page profil utilisateur** (`/profile`) :
+  - Page profil utilisateur (`/profile`) :
 
     - Profil utilisateur regroupant ses infos personnelles
 
-  - **Styling** :
+  - Styling :
 
     - Styles des composants avec les librairie styled-components et twin.macro pour une personnalisation plus poussées et des performances accrues.
 
-  - **Burger menu** :
+  - Burger menu :
 
     - Sidebar avec burger icon
     - Ajout dynamique d'un sous-menu si utilisateur connecté
 
-  - **Animations** :
+  - Animations :
 
     - Implentation d'animations avec la librairie react-animations couplée avec styled-components.
 
-  - **Dark Mode** :
+  - Dark Mode :
     - Possibilité de switch de thème `["light","dark"]` depuis tout le site.
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `yarn start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
