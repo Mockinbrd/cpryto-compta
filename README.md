@@ -98,7 +98,7 @@ C'est là que notre application entre en jeu, le but : regrouper ses investissem
 
   - Page portfolios (`/portfolios`) :
 
-    - Screenshot de la page : [Image](https://github.com/Mockinbrd/front-uf-web-b3/tree/master/doc/portfolios.png)
+    - Screenshot de la page : [Image](https://drive.google.com/file/d/1otuyqyesaZG-AAErZCEWUNiGIL6Uj-XX/view?usp=sharing)
     - C'est ici que l'utilisateur aura des statistiques d'un portfolio précis.
 
   - Page profil utilisateur (`/profile`) :
