@@ -141,8 +141,10 @@ C'est là que notre application entre en jeu, le but : regrouper ses investissem
     - Implentation d'animations avec la librairie react-animations couplée avec styled-components.
 
   - Dark Mode :
-    
+
     - Possibilité de switch de thème `["light","dark"]` depuis tout le site.
+    - Le composant va d'abord vérifier si l'utilisateur n'a pas déjà par défaut des préférences de thème définit.
+    - Le thème est manipulé de part contexte `<ThemeContext />` et est stocké dans le localStorage.
 
 ## 🧬 Parcours utilisateur
 
