@@ -95,6 +95,23 @@ C'est là que notre application entre en jeu, le but : regrouper ses investissem
 
     - Screenshot de la page : [Image](https://drive.google.com/file/d/1n1oIi6huJe8WfIjoggos6FLwVmL3e8D6/view?usp=sharing)
     - C'est ici que l'utilisateur aura des statistiques de tous ses portfolios réunis.
+    - Il pourra aussi ajouter une nouvelle transaction dans un de ses portfolios en cliquant sur le +, plus de détails ci-dessous.
+
+  - Composant Ajouter une nouvelle Transaction :
+
+    - Formulaire dynamique avec :
+
+      1. Text input ``coin`` avec auto-complétion qui boucle sur les données des coins de l'API CoinGecko
+      2. Select input ``currency`` : ['EUR', 'USD']
+      3. Number input ``amount-paid`` où l'utilisateur rentre la somme qu'il a dépensé pour acheter sa crypto-monnaie
+      4. Date input ``transaction-date`` où l'utilisateur rentre la date à laquelle il a acheté sa crypto-monnaie
+      5. L'utilisateur peut maintenant ``submit`` le formulaire.
+
+    - Les données sont ensuite envoyées à l'API Symfony pour subire différents traitements :
+
+      1. La somme d'argent dépensée est convertit en crypto à l'aide de l'API Coingecko dans le field ``token_qty_received``
+      2. L'url de l'``icon`` de la crypto-monnaie est récupérée s'il est disponible
+      3. La transaction est insérée en base dans le portfolio adéquate
 
   - Page portfolios (`/portfolios`) :
 
