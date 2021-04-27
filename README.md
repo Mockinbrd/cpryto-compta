@@ -134,8 +134,8 @@ C'est là que notre application entre en jeu, le but : regrouper ses investissem
 
 3.  Depuis cette page, l'utilisateur à la possibilité de créer son premier portfolio s'in n'en possède pas ou d'ajouter de nouvelles transactions dans un de ses portfolios.
 
-  - [Formulaire ajout de transaction]()
-  - [Page d'un portfolio]()
+  - [Formulaire ajout de transaction](https://drive.google.com/file/d/1th4w1fGFR4sR91CsWog5tyXMJ0oCCk0X/view?usp=sharing)
+  - [Page d'un portfolio](https://drive.google.com/file/d/1rE2nQzaUXoHSy1sfSbcbBoPbsDIBbMy9/view?usp=sharing)
 
 <hr>
 
