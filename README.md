@@ -125,17 +125,17 @@ C'est là que notre application entre en jeu, le but : regrouper ses investissem
 
 1.  [Landing page](https://drive.google.com/file/d/1mLFUKByyAz0E3rIbz-Yhe9AGZoqNRFwv/view?usp=sharing) L'utilisateur arrive sur la landing page, il a le choix de se connecter, ou de s'enregistrer.
 
-  - [Page 'Se connecter'](https://drive.google.com/file/d/1prC13mJ2XQ5feiwtIvKb-JyqVZ6hJU7V/view?usp=sharing)
-  - [Page 'Inscription'](https://drive.google.com/file/d/1sh9WPDFc7jADORuuXT4Y7oORdp5N1yfn/view?usp=sharing)
+    - [Page 'Se connecter'](https://drive.google.com/file/d/1prC13mJ2XQ5feiwtIvKb-JyqVZ6hJU7V/view?usp=sharing)
+    - [Page 'Inscription'](https://drive.google.com/file/d/1sh9WPDFc7jADORuuXT4Y7oORdp5N1yfn/view?usp=sharing)
 
 2.  Une fois connecté, l'utilisateur est redirigé vers sa page home, la page synthétisant tous ses assets.
 
-  - [Page 'My Assets'](https://drive.google.com/file/d/1n1oIi6huJe8WfIjoggos6FLwVmL3e8D6/view?usp=sharing)
+    - [Page 'My Assets'](https://drive.google.com/file/d/1n1oIi6huJe8WfIjoggos6FLwVmL3e8D6/view?usp=sharing)
 
 3.  Depuis cette page, l'utilisateur à la possibilité de créer son premier portfolio s'in n'en possède pas ou d'ajouter de nouvelles transactions dans un de ses portfolios.
 
-  - [Formulaire ajout de transaction](https://drive.google.com/file/d/1th4w1fGFR4sR91CsWog5tyXMJ0oCCk0X/view?usp=sharing)
-  - [Page d'un portfolio](https://drive.google.com/file/d/1rE2nQzaUXoHSy1sfSbcbBoPbsDIBbMy9/view?usp=sharing)
+    - [Formulaire ajout de transaction](https://drive.google.com/file/d/1th4w1fGFR4sR91CsWog5tyXMJ0oCCk0X/view?usp=sharing)
+    - [Page d'un portfolio](https://drive.google.com/file/d/1rE2nQzaUXoHSy1sfSbcbBoPbsDIBbMy9/view?usp=sharing)
 
 <hr>
 
